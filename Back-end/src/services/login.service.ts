@@ -31,7 +31,7 @@ const loginService = async (userData: IUserLogin) => {
     }
 
     const token = jwt.sign(
-        { email: user.id },
+        { id: user.id },
         process.env.SECRET_KEY as string,
         {
             subject: String(user.id),
@@ -43,7 +43,7 @@ const loginService = async (userData: IUserLogin) => {
         stripUnknown: true
     })
 
-    return [{ user: returnedData }, { token: token }]
+    return token
 
 }
 

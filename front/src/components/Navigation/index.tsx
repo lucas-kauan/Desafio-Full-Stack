@@ -1,21 +1,17 @@
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../providers/UserContext/UserContext";
 import HeaderNavigation from "./style";
 
 
 const Navigation = ({ setLoading }: any) => {
 
-    const navigate = useNavigate();
-    const logoutUser = () => {
-        localStorage.clear();
-        setLoading(false)
-        navigate("/");
-    };
+    const { user, userLoggout } = useContext(UserContext)
 
     return (
         <HeaderNavigation>
             <div>
-                <p>Seja Bem vindo - <strong>Lucas Kauan</strong></p>
-                <button onClick={() => logoutUser()}>Sair</button>
+                <p>Seja Bem vindo - <strong>{user?.name}</strong></p>
+                <button onClick={() => userLoggout()}>Sair</button>
             </div>
         </HeaderNavigation>
     )

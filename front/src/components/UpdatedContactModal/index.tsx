@@ -26,7 +26,7 @@ const UpdatedContactModal = ({ setModalContact }: any) => {
                         </div>
                     </div>
                     <div>
-                        <button>Enviar</button>
+                        <button type="submit">Enviar</button>
                     </div>
                 </form>
             </div>

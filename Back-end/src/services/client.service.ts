@@ -48,7 +48,7 @@ const listAllClientsForAdminService = async () => {
     return returnedData
 }
 
-const listClientByIdService = async (userId: string, user: IClientResponse) => {
+const listClientByIdService = async (userId: string) => {
     const clientRepository = AppDataSource.getRepository(Client)
 
     const userReturned = await clientRepository.findOne({
@@ -70,8 +70,6 @@ const listClientByIdService = async (userId: string, user: IClientResponse) => {
     return returnedData
 
 }
-
-
 
 const deleteClientService = async (userId: string): Promise<object> => {
 

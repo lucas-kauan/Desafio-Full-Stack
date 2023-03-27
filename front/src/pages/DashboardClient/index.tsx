@@ -1,4 +1,3 @@
-
 import Navigation from "../../components/Navigation";
 import PageClient from "./style";
 import { AiOutlinePlus } from "react-icons/ai"
@@ -10,27 +9,31 @@ import AddContactModal from "../../components/AddContactModal";
 import MyDataModal from "../../components/MyDataModal";
 
 const DashboardClient = () => {
-    const { setLoading, user } = useContext(UserContext)
+
+    const { setLoading, contactsClient, reload, setReload } = useContext(UserContext)
 
     const [modalContact, setModalContact] = useState(false)
     const [modalDeleteContact, setModalDeleteContact] = useState(false)
     const [modalAddContact, setModalAddContact] = useState(false)
     const [modalMyData, setModalMyData] = useState(false)
-
     const [searchValue, setSearchValue] = useState("")
-    // const [clients, setClients] = useState<IContact[] | null>(user!.contacts)
-    // const [contacts, setContacts] = useState<IContact[] | null>(user!.contacts)
+
+    const [contactsSearch, setContactsSearch] = useState<IContact[] | undefined>(contactsClient)
+
 
     const inputValue = (event: any) => {
         setSearchValue(event.target.value)
     }
 
     const searchContact = (search: string) => {
-        // const contacts = user!.contacts.filter(el => el.name.toLowerCase().includes(search))
-        // if (contacts.length > 0) {
-        //     setContacts(contacts)
-        // }
-        // setClients(user!.contacts)
+        const contacts: IContact[] = []
+        contactsClient!.filter(el => {
+            if (el.name.toLowerCase().includes(search.toLowerCase()) || el.name.toLowerCase().includes(search.toLowerCase()) || el.telephone.toLowerCase().includes(search.toLowerCase())) {
+                contacts.push(el)
+            }
+        })
+
+        setContactsSearch(contacts)
     }
 
     return (
@@ -45,13 +48,16 @@ const DashboardClient = () => {
                 </div>
                 <div className="add_contact">
                     <h2>Contatos</h2>
-                    <AiOutlinePlus className="add_icon" onClick={() => setModalAddContact(true)} />
+                    <AiOutlinePlus className="add_icon" onClick={() => {
+                        setModalAddContact(true)
+                        setReload(true)
+                    }} />
                 </div>
                 <div className="contacts">
                     <ul>
-                        {/* {
-                            contacts!.length > 0 ?
-                                contacts!.map((element, index) => {
+                        {
+                            contactsSearch!.length > 0 ?
+                                contactsSearch!.map((element, index) => {
                                     return (
                                         <li className="contact" key={index}>
                                             <div>
@@ -65,7 +71,7 @@ const DashboardClient = () => {
                                             </div>
                                         </li>
                                     )
-                                }) : clients!.map((element, index) => {
+                                }) : contactsClient!.map((element, index) => {
                                     return (
                                         <li className="contact" key={index}>
                                             <div>
@@ -80,7 +86,7 @@ const DashboardClient = () => {
                                         </li>
                                     )
                                 })
-                        } */}
+                        }
                     </ul>
 
                     <div>

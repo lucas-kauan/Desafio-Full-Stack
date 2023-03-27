@@ -43,6 +43,28 @@ const createContactService = async (contactData: IContactRequest, clientId: stri
 
 }
 
+const listAllContactsByUserIdService = async (userId: string) => {
+
+    const contactRepository = AppDataSource.getRepository(Client)
+
+    const contactsReturned = await contactRepository.findOne({
+        where: {
+            id: userId
+        },
+        relations: {
+            contacts: true
+        }
+    })
+
+    const contacts = []
+    contactsReturned.contacts.map((el) => {
+        contacts.push({ id: el.id, name: el.name, email: el.email, telephone: el.telephone })
+    })
+
+    return contacts
+
+}
+
 const updatedContactService = async (contactData: IContactUpdate, contactId: string, userLog: IClientResponse): Promise<IContactResponse> => {
     const contactRepository = AppDataSource.getRepository(Contacts)
     const contactUpdate = await contactRepository.findOneBy({ id: contactId })
@@ -117,4 +139,4 @@ const deleteContactService = async (contactId: string, userLog: IClientResponse)
     throw new AppError("Not permission!", 401)
 }
 
-export { createContactService, updatedContactService, deleteContactService }
+export { createContactService, updatedContactService, deleteContactService, listAllContactsByUserIdService }

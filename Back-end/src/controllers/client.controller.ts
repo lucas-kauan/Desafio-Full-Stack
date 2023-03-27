@@ -15,8 +15,7 @@ const listAllClientsForAdminController = async (req: Request, res: Response) => 
 
 const listClientByIdController = async (req: Request, res: Response) => {
     const userId: string = req.params.id
-    const user: IClientResponse = req.user
-    const data = await listClientByIdService(userId, user)
+    const data = await listClientByIdService(userId)
     return res.status(200).json(data)
 }
 
