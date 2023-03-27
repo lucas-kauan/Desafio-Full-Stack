@@ -87,8 +87,8 @@ const PageAdmin = styled.div`
                 display: flex;
                 overflow: auto;
                 margin-top: 30px;
-                height: 300px;
                 gap: 50px;
+                padding-bottom: 20px;
                 
                 li {
                     display: flex;
@@ -188,9 +188,11 @@ const PageAdmin = styled.div`
             }
 
             > ul {
-
-                margin-top: 50px;
-                height: 300px;
+                display: flex;
+                overflow: auto;
+                margin-top: 30px;
+                gap: 50px;
+                padding-bottom: 20px;
                 
                 li {
                     display: flex;

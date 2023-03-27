@@ -68,7 +68,7 @@ const DashboardAdmin = () => {
                                     </div>
                                     <div className="button_clients">
                                         <button>Visualizar contatos</button>
-                                        <button>Deletar usuário</button>
+                                        <button>Deletar contato</button>
                                     </div>
                                 </li>
                                 <li>
@@ -95,7 +95,7 @@ const DashboardAdmin = () => {
                                     </div>
                                     <div className="button_clients">
                                         <button>Visualizar contatos</button>
-                                        <button>Deletar usuário</button>
+                                        <button>Deletar contato</button>
                                     </div>
                                 </li>
                                 <li>
@@ -122,7 +122,7 @@ const DashboardAdmin = () => {
                                     </div>
                                     <div className="button_clients">
                                         <button>Visualizar contatos</button>
-                                        <button>Deletar usuário</button>
+                                        <button>Deletar contato</button>
                                     </div>
                                 </li>
                             </ul>
