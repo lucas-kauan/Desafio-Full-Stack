@@ -5,22 +5,24 @@ import { AppError } from "../errors/AppError";
 import { Client } from "../entities/client.entity";
 import AppDataSource from "../data-source";
 import { IUserLogin } from "../interfaces/login";
+import { clientSerializerResponse, listAllClientsResponseSerializer } from "../serializers/client.serializer";
 
-const loginService = async (userData: IUserLogin): Promise<string> => {
+const loginService = async (userData: IUserLogin) => {
 
     const userRepository = AppDataSource.getRepository(Client)
 
-    const user = await userRepository.findOneBy({
-        email: ILike(`${userData.email}`)
+    const user = await userRepository.findOne({
+        where: {
+            email: ILike(`${userData.email}`)
+        },
+        relations: {
+            contacts: true
+        }
     })
 
     if (!user) {
         throw new AppError("Email or password invalid", 403)
     }
-
-    // if (!user.isActive) {
-    //     throw new AppError("User disabled", 404)
-    // }
 
     const passwordMatch = await compare(userData.password, user.password)
 
@@ -37,7 +39,11 @@ const loginService = async (userData: IUserLogin): Promise<string> => {
         }
     )
 
-    return token
+    const returnedData = await listAllClientsResponseSerializer.validate(user, {
+        stripUnknown: true
+    })
+
+    return [{ user: returnedData }, { token: token }]
 
 }
 
