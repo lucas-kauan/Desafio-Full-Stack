@@ -1,7 +1,75 @@
 // import { useState } from "react";
 import UpdatedContactStyle from "./style";
+import * as yup from "yup";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { IContactUpdate } from "../../services/contacts/interface";
+import { updateContactById } from "../../services/contacts/requests";
+import { useContext } from "react";
+import { UserContext } from "../../providers/UserContext/UserContext";
+import { toast } from "react-toastify";
+
+const schema = yup.object({
+    telephone: yup.string().notRequired(),
+    email: yup
+        .string()
+        .email().notRequired(),
+    name: yup.string().notRequired(),
+});
 
 const UpdatedContactModal = ({ setModalContact }: any) => {
+
+    const { idContact, user } = useContext(UserContext)
+
+    const bodyUpdate = async (formData: IContactUpdate) => {
+        user!.contacts.filter((el) => {
+            if (el.id === idContact) {
+                if (formData.name === "") {
+                    formData.name = el.name
+                }
+                if (formData.email === "") {
+                    formData.email = el.email
+                }
+                if (formData.telephone === "") {
+                    formData.telephone = el.telephone
+                }
+            }
+        })
+
+        try {
+            await updateContactById(idContact, formData)
+            toast.success("Informações alteradas")
+        } catch (error) {
+            console.error(error)
+        }
+        // if(formData.name === ""){
+
+        // }
+
+        // if (formData.name) {
+        //     await updateContactById(idContact, formData.name)
+        // }
+        // if (formData.email) {
+        //     await updateContactById(idContact, formData.email)
+        // }
+        // if (formData.telephone) {
+        //     await updateContactById(idContact, formData.telephone)
+        // }
+        // console.log(formData)
+
+    }
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<IContactUpdate>({
+        resolver: yupResolver(schema),
+    });
+
+    const submit: SubmitHandler<IContactUpdate> = (formData) => {
+        bodyUpdate(formData)
+    }
 
     return (
         <UpdatedContactStyle>
@@ -10,19 +78,19 @@ const UpdatedContactModal = ({ setModalContact }: any) => {
                     <h2>Alterando contato</h2>
                     <button onClick={() => setModalContact(false)}>X</button>
                 </div>
-                <form action="">
+                <form action="" onSubmit={handleSubmit(submit)}>
                     <div>
                         <div>
                             <label htmlFor="name">Nome</label>
-                            <input type="text" placeholder="Insira um nome" id="name" />
+                            <input type="text" placeholder="Insira um nome" id="name" {...register("name")} />
                         </div>
                         <div>
                             <label htmlFor="email">E-mail</label>
-                            <input type="text" placeholder="Insira um e-mail" id="email" />
+                            <input type="text" placeholder="Insira um e-mail" id="email" {...register("email")} />
                         </div>
                         <div>
                             <label htmlFor="telephone">Telefone</label>
-                            <input type="text" placeholder="Insira um telefone" id="telephone" />
+                            <input type="text" placeholder="Insira um telefone" id="telephone" {...register("telephone")} />
                         </div>
                     </div>
                     <div>

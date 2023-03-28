@@ -25,6 +25,7 @@ const listAllClientsResponseSerializer: SchemaOf<IClientResponse> = yup.object()
     .shape({
         contacts: yup.array().of(
             yup.object({
+                isActive: yup.boolean().required(),
                 createdAt: yup.string().required(),
                 telephone: yup.string().length(11).required(),
                 email: yup.string().email().required(),

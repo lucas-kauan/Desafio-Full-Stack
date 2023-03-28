@@ -7,6 +7,7 @@ const MyDataModal = ({ setModalMyData }: any) => {
 
     const { user } = useContext(UserContext)
 
+
     return (
         <MyDataStyle>
             <div>
@@ -19,7 +20,7 @@ const MyDataModal = ({ setModalMyData }: any) => {
                         <div>
                             <label htmlFor="name">Nome</label>
                             <div>
-                                <input type="text" placeholder={user!.name} id="name" />
+                                <input type="text" placeholder={user?.name} id="name" />
                                 <button>Alterar</button>
                             </div>
                         </div>

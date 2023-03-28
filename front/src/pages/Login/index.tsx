@@ -82,7 +82,6 @@ const Login = () => {
                             )}
                         </span>
                     </div>
-
                     <button type="submit">Login</button>
                 </form>
             </div>

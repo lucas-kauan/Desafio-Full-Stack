@@ -1,11 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, useEffect, useState } from "react";
 import api from "../../services/api"
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { getAllContactsByUser } from "../../services/contacts/requests";
+import { deleteContactById } from "../../services/contacts/requests";
 import jwtDecode from "jwt-decode";
 import { getClientById } from "../../services/users/requests";
-
 
 export interface IDefaultProviderProps {
     children: React.ReactNode
@@ -28,6 +28,7 @@ export interface IContact {
     email: string
     telephone: string
     createdAt: string
+    isActive: boolean
 }
 
 export interface IRegisterFormValues {
@@ -51,7 +52,14 @@ export interface IUserContext {
     userRegister: (formData: IRegisterFormValues) => Promise<void>
     userLogin: (formData: ILoginFormValues) => Promise<void>
     userLoggout: () => Promise<void>
-    contactsClient: IContact[] | undefined
+    contactsClient: IContact[] | null
+    setModalContact: React.Dispatch<React.SetStateAction<boolean>>
+    modalContact: boolean
+    setModalDeleteContact: React.Dispatch<React.SetStateAction<boolean>>
+    modalDeleteContact: boolean
+    deleteContactGlobal: (id: string) => void
+    setIdContact: React.Dispatch<React.SetStateAction<string>>
+    idContact: string
 }
 
 interface IToken {
@@ -64,10 +72,13 @@ interface IToken {
 export const UserContext = createContext({} as IUserContext)
 
 export const UserProvider = ({ children }: IDefaultProviderProps) => {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [reload, setReload] = useState(false)
     const [user, setUser] = useState<IUser | null>(null)
-    const [contactsClient, setContactsClient] = useState<IContact[] | undefined>()
+    const [contactsClient, setContactsClient] = useState<IContact[] | null>(null)
+    const [modalContact, setModalContact] = useState(false)
+    const [modalDeleteContact, setModalDeleteContact] = useState(false)
+    const [idContact, setIdContact] = useState("")
 
     const navigate = useNavigate()
 
@@ -83,58 +94,69 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
 
     const userLogin = async (formData: ILoginFormValues) => {
         try {
-            setLoading(true)
+
             const response = await api.post("login", formData)
             localStorage.setItem("@token", response.data.token)
-            console.log(`TOKEN: ${response.data.token}`)
+
             const tokenDecode: IToken = jwtDecode(response.data.token)
-            console.log(`IDUSER: ${tokenDecode}`)
+
             localStorage.setItem("@userId", tokenDecode.id)
-            const userCapturado = await getClientById(String(localStorage.getItem("@userId")))
-            toast.success("Usuário logado!")
+
+            const userCapturado = await getClientById(tokenDecode.id)
             setUser(userCapturado)
-            navigate("/dashboard")
+            toast.success("Usuário logado!")
+            setLoading(true)
 
         } catch (error) {
             toast.error("E-mail ou senha inválidos")
             console.error(error)
         }
     }
-    console.log(`USER: ${user?.email}`)
+
 
     const verify = async () => {
         const token = localStorage.getItem("@token")
-
-        if (!token) {
-            navigate("/")
-        }
+        let userCapture = user
         if (token) {
-            if (user?.isAdmin) {
+            userCapture = await getClientById(localStorage.getItem("@userId")!)
+        }
+
+        try {
+            if (!token) {
+                navigate("/")
+            } else if (userCapture!.isAdmin) {
                 navigate("dashboard_admin")
             } else {
+                console.log(userCapture)
+                console.log(userCapture!.contacts)
+                setUser(userCapture)
+                setContactsClient(userCapture!.contacts)
                 navigate("dashboard")
             }
+
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setLoading(false)
         }
     }
 
-    const updatedContacts = async () => {
-        const token = localStorage.getItem("@token")
-        if (token) {
-            try {
-                const userClient = await getAllContactsByUser(user!.id)
-                setContactsClient(userClient)
-            } catch (error) {
-                console.error(error)
-            }
-
+    const deleteContactGlobal = (id: string) => {
+        try {
+            deleteContactById(id)
+            toast.success("Contato deletado")
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(true)
+            }, 300);
         }
     }
 
     useEffect(() => {
         verify()
-        updatedContacts()
-    }, [, reload])
-
+    }, [loading])
 
     const userLoggout = async () => {
         setUser(null);
@@ -144,7 +166,24 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     }
 
     return (
-        <UserContext.Provider value={{ loading, reload, setLoading, setReload, user, userRegister, userLogin, userLoggout, contactsClient }}>
+        <UserContext.Provider value={{
+            loading,
+            reload,
+            setLoading,
+            setReload,
+            user,
+            userRegister,
+            userLogin,
+            userLoggout,
+            contactsClient,
+            setModalContact,
+            modalContact,
+            setModalDeleteContact,
+            modalDeleteContact,
+            deleteContactGlobal,
+            setIdContact,
+            idContact
+        }}>
             {children}
         </UserContext.Provider>
     )

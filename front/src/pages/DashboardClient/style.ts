@@ -78,15 +78,15 @@ const PageClient = styled.div`
             > ul {
                 display: flex;
                 flex-wrap: wrap;
-                width: 65%;
-                justify-content: space-between;
+                gap: 30px;
                 margin: 0;
     
                 > li {
-                    display: list-item;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
                     background-color: var(--color-primary);
                     padding: 20px;
-                    margin-bottom: 30px;
                     width: 280px;
 
                     .buttons_contact {
@@ -110,31 +110,6 @@ const PageClient = styled.div`
                         margin-bottom: 5px;
                         font-size: 20px;
                     }
-                }
-            }
-
-            > div {
-                width: 30%;
-                display: flex;
-                justify-content: space-between;
-
-                > input {
-                    width: 180px;
-                    height: 50px;
-                    border: none;
-                    border-radius: 3px;
-                    padding-left: 10px;
-                    font-size: 18px;
-                }
-
-                > button {
-                    width: 75px;
-                    height: 50px;
-                    border: none;
-                    border-radius: 3px;
-                    font-size: 13px;
-                    font-weight: 600;
-                    background-color: var(--color-primary);
                 }
             }
         }

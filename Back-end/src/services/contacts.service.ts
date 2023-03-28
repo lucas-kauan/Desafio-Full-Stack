@@ -58,7 +58,7 @@ const listAllContactsByUserIdService = async (userId: string) => {
 
     const contacts = []
     contactsReturned.contacts.map((el) => {
-        contacts.push({ id: el.id, name: el.name, email: el.email, telephone: el.telephone })
+        contacts.push({ id: el.id, name: el.name, email: el.email, telephone: el.telephone, isActive: el.isActive })
     })
 
     return contacts
