@@ -20,11 +20,13 @@ const schema = yup.object({
 
 const UpdatedContactModal = ({ setModalContact }: any) => {
 
-    const { idContact, user, setLoading } = useContext(UserContext)
+    const { idContact, userSelected } = useContext(UserContext)
 
     const bodyUpdate = async (formData: IContactUpdate) => {
-        user!.contacts.filter((el) => {
+
+        userSelected!.contacts.filter((el) => {
             if (el.id === idContact) {
+
                 if (formData.name === "") {
                     formData.name = el.name
                 }
@@ -34,14 +36,14 @@ const UpdatedContactModal = ({ setModalContact }: any) => {
                 if (formData.telephone === "") {
                     formData.telephone = el.telephone
                 }
+
             }
         })
 
         try {
             await updateContactById(idContact, formData)
             toast.success("Informações alteradas")
-            setLoading(true)
-
+            setModalContact(false)
         } catch (error) {
             console.error(error)
         }

@@ -62,7 +62,10 @@ export interface IUserContext {
     idContact: string
     setClientGet: React.Dispatch<React.SetStateAction<IUser | null>>
     clientGet: IUser | null
+    setUserSelected: React.Dispatch<React.SetStateAction<IUser | null>>
+    userSelected: IUser | null
 }
+
 
 interface IToken {
     exp: number
@@ -82,6 +85,7 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     const [modalDeleteContact, setModalDeleteContact] = useState(false)
     const [idContact, setIdContact] = useState("")
     const [clientGet, setClientGet] = useState<IUser | null>(null)
+    const [userSelected, setUserSelected] = useState<IUser | null>(null)
 
     const navigate = useNavigate()
 
@@ -186,7 +190,9 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
             setIdContact,
             idContact,
             setClientGet,
-            clientGet
+            clientGet,
+            setUserSelected,
+            userSelected
         }}>
             {children}
         </UserContext.Provider>

@@ -68,7 +68,7 @@ const PageAdmin = styled.div`
                 
                 li {
                     display: flex;
-                    height: 317px;
+                    height: 385px;
                     min-width: 390px;
                     padding: 20px;
                     flex-direction: column;
@@ -180,8 +180,8 @@ const PageAdmin = styled.div`
                 
                 li {
                     display: flex;
-                    height: 300px;
-                    width: 400px;
+                    height: 385px;
+                    min-width: 390px;
                     padding: 20px;
                     flex-direction: column;
                     justify-content: space-between;
@@ -190,23 +190,13 @@ const PageAdmin = styled.div`
                     
                     div {
                         display: flex;
-                        justify-content: space-between;
                         align-items: center;
                         height: 60px;
                         
                         > div {
-                            width: 260px;
 
-
-                            > label {
-                                font-size: 17px;
-                                font-weight: 400;
-                            }
-
-                            > input {
-                                height: 40px;
-                                width: 170px;
-                                padding-left: 10px;
+                            h3 {
+                                margin-right: 20px;
                             }
                         }
                         
@@ -222,9 +212,11 @@ const PageAdmin = styled.div`
                         }
                     }
 
-                    > .button_delete {
+                    > .buttons_contacts {
+                        display: flex;
+                        justify-content: space-between;
                         > button {
-                            width: 100%;
+                            width: 45%;
                         }
                     }
                 }

@@ -7,15 +7,17 @@ import { getAllContactsByUser } from "../../services/contacts/requests";
 import ClientDataModal from "../../components/ModalDataClient";
 import { deleteUserById } from "../../services/users/requests";
 import { toast } from "react-toastify";
+import MyDataModal from "../../components/MyDataModal";
+import UpdatedContactModal from "../../components/UpdatedContactModal";
 
 const DashboardAdmin = () => {
 
     const [modalMyData, setModalMyData] = useState(false)
+    const [modalClientData, setModalClientData] = useState(false)
     const [usersList, setUsersList] = useState<IUser[]>()
     const [contactsList, setContactsList] = useState<IContact[] | null>(null)
-    const [userSelected, setUserSelected] = useState<IUser>()
 
-    const { setLoading, loading, setClientGet, setModalDeleteContact } = useContext(UserContext)
+    const { setLoading, loading, setClientGet, setModalDeleteContact, setModalContact, modalContact, setIdContact, setUserSelected, userSelected } = useContext(UserContext)
 
 
     const getAllUsers = async () => {
@@ -64,7 +66,6 @@ const DashboardAdmin = () => {
                                 <ul>
                                     <li><button onClick={() => {
                                         setModalMyData(true)
-                                        setLoading(true)
                                     }}>Meus dados</button></li>
                                 </ul>
                             </div>
@@ -79,8 +80,8 @@ const DashboardAdmin = () => {
                                                         <li key={index}>
                                                             <button onClick={() => {
                                                                 setClientGet(element)
-                                                                setModalMyData(true)
-                                                            }}>Editar contato</button>
+                                                                setModalClientData(true)
+                                                            }}>Editar cliente</button>
                                                             <div>
                                                                 <div>
                                                                     <h3>Nome:</h3>
@@ -97,6 +98,11 @@ const DashboardAdmin = () => {
                                                                 <div >
                                                                     <h3>Telefone:</h3>
                                                                     <h3>{element.telephone}</h3>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <div>
+                                                                    <h3>Usuário {element.isActive ? "ativo" : "desativado"}</h3>
                                                                 </div>
                                                             </div>
                                                             <div className="button_clients">
@@ -127,27 +133,33 @@ const DashboardAdmin = () => {
                                                                     <li key={index}>
                                                                         <div>
                                                                             <div>
-                                                                                <label htmlFor="">Nome</label>
-                                                                                <input type="text" placeholder={element.name} />
+                                                                                <h3>Nome:</h3>
+                                                                                <h3>{element.name}</h3>
                                                                             </div>
-                                                                            <button>Alterar</button>
                                                                         </div>
                                                                         <div>
                                                                             <div>
-                                                                                <label htmlFor="">E-mail</label>
-                                                                                <input type="text" placeholder={element.email} />
+                                                                                <h3>E-mail:</h3>
+                                                                                <h3>{element.email}</h3>
                                                                             </div>
-                                                                            <button>Alterar</button>
+                                                                        </div>
+                                                                        <div>
+                                                                            <div >
+                                                                                <h3>Telefone:</h3>
+                                                                                <h3>{element.telephone}</h3>
+                                                                            </div>
                                                                         </div>
                                                                         <div>
                                                                             <div>
-                                                                                <label htmlFor="">Telefone</label>
-                                                                                <input type="text" placeholder={element.telephone} />
+                                                                                <h3>Usuário {element.isActive ? "ativo" : "desativado"}</h3>
                                                                             </div>
-                                                                            <button>Alterar</button>
                                                                         </div>
-                                                                        <div className="button_delete">
-                                                                            <button>Deletar</button>
+                                                                        <div className="buttons_contacts">
+                                                                            <button onClick={() => {
+                                                                                setIdContact(element.id)
+                                                                                setModalContact(true)
+                                                                            }}>Editar contato</button>
+                                                                            <button >Deletar contato</button>
                                                                         </div>
                                                                     </li>
                                                                 )
@@ -162,8 +174,18 @@ const DashboardAdmin = () => {
                             </div>
                         </div>
                         {
+                            modalClientData ?
+                                <ClientDataModal setModalClientData={setModalClientData} /> : null
+                        }
+                        {
                             modalMyData ?
-                                <ClientDataModal setModalMyData={setModalMyData} /> : null
+                                <MyDataModal setModalMyData={setModalMyData} /> : null
+                        }
+                        {
+
+                            modalContact ?
+                                <UpdatedContactModal setModalContact={setModalContact} /> : null
+
                         }
                     </PageAdmin>
             }

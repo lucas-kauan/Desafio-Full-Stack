@@ -19,9 +19,9 @@ const schema = yup.object({
     name: yup.string().notRequired(),
 });
 
-const ClientDataModal = ({ setModalMyData }: any) => {
+const ClientDataModal = ({ setModalClientData }: any) => {
 
-    const { clientGet, setLoading } = useContext(UserContext)
+    const { clientGet, setLoading, loading } = useContext(UserContext)
 
     const bodyUpdate = async (formData: IUserUpdate) => {
 
@@ -33,7 +33,7 @@ const ClientDataModal = ({ setModalMyData }: any) => {
             }
             await updateUserById(clientGet!.id, userUpdate)
             toast.success("Nome alterado!")
-            setModalMyData(false)
+            setModalClientData(false)
 
         }
         if (formData.email !== "") {
@@ -42,7 +42,7 @@ const ClientDataModal = ({ setModalMyData }: any) => {
             }
             await updateUserById(clientGet!.id, userUpdate)
             toast.success("E-mail alterado!")
-            setModalMyData(false)
+            setModalClientData(false)
         }
         if (formData.password !== "") {
             userUpdate = {
@@ -50,7 +50,7 @@ const ClientDataModal = ({ setModalMyData }: any) => {
             }
             await updateUserById(clientGet!.id, userUpdate)
             toast.success("Senha alterada!")
-            setModalMyData(false)
+            setModalClientData(false)
         }
         if (formData.telephone !== "") {
             userUpdate = {
@@ -58,7 +58,7 @@ const ClientDataModal = ({ setModalMyData }: any) => {
             }
             await updateUserById(clientGet!.id, userUpdate)
             toast.success("Telefone alterado!")
-            setModalMyData(false)
+            setModalClientData(false)
         }
         setLoading(true)
     }
@@ -75,48 +75,51 @@ const ClientDataModal = ({ setModalMyData }: any) => {
     }
 
     return (
-        <MyDataStyle>
-            <div>
-                <div>
-                    <h2>Meus dados</h2>
-                    <button onClick={() => setModalMyData(false)}>X</button>
-                </div>
-                <form action="" onSubmit={handleSubmit(submit)}>
-                    <div>
+        <>
+            {
+                loading ? <h1>Loading...</h1> :
+                    <MyDataStyle>
                         <div>
-                            <label htmlFor="name">Nome</label>
                             <div>
-                                <input type="text" placeholder={clientGet!.name} id="name" {...register("name")} />
-                                <button type="submit" onClick={() => {
-
-                                }}>Alterar</button>
+                                <h2>Meus dados</h2>
+                                <button onClick={() => setModalClientData(false)}>X</button>
                             </div>
+                            <form action="" onSubmit={handleSubmit(submit)}>
+                                <div>
+                                    <div>
+                                        <label htmlFor="name">Nome</label>
+                                        <div>
+                                            <input type="text" placeholder={clientGet!.name} id="name" {...register("name")} />
+                                            <button type="submit">Alterar</button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="email">E-mail</label>
+                                        <div>
+                                            <input type="text" placeholder={clientGet!.email} id="email" {...register("email")} />
+                                            <button type="submit">Alterar</button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="password">Senha</label>
+                                        <div>
+                                            <input type="text" placeholder="Alterar senha" id="password" {...register("password")} />
+                                            <button type="submit">Alterar</button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="telephone">Telefone</label>
+                                        <div>
+                                            <input type="text" placeholder={clientGet!.telephone} id="telephone" {...register("telephone")} />
+                                            <button type="submit">Alterar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div>
-                            <label htmlFor="email">E-mail</label>
-                            <div>
-                                <input type="text" placeholder={clientGet!.email} id="email" {...register("email")} />
-                                <button type="submit">Alterar</button>
-                            </div>
-                        </div>
-                        <div>
-                            <label htmlFor="password">Senha</label>
-                            <div>
-                                <input type="text" placeholder="Alterar senha" id="password" {...register("password")} />
-                                <button type="submit">Alterar</button>
-                            </div>
-                        </div>
-                        <div>
-                            <label htmlFor="telephone">Telefone</label>
-                            <div>
-                                <input type="text" placeholder={clientGet!.telephone} id="telephone" {...register("telephone")} />
-                                <button type="submit">Alterar</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </MyDataStyle>
+                    </MyDataStyle>
+            }
+        </>
     )
 
 }

@@ -77,7 +77,7 @@ const MyDataModal = ({ setModalMyData }: any) => {
                         <div>
                             <label htmlFor="name">Nome</label>
                             <div>
-                                <input type="text" placeholder={user?.name} id="name" {...register("name")} />
+                                <input type="text" placeholder={user!.name} id="name" {...register("name")} />
                                 <button type="submit">Alterar</button>
                             </div>
                         </div>
@@ -107,6 +107,5 @@ const MyDataModal = ({ setModalMyData }: any) => {
             </div>
         </MyDataStyle>
     )
-
 }
 export default MyDataModal;
