@@ -8,3 +8,10 @@ export interface IGetUserInfo {
     isAdmin: boolean
     createdAt: string
 }
+
+export interface IUserUpdate {
+    name?: string
+    email?: string
+    password?: string
+    telephone?: string
+}

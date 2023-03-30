@@ -9,6 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { updateUserById } from "../../services/users/requests";
 import { toast } from "react-toastify";
 
+
 const schema = yup.object({
     telephone: yup.string().notRequired(),
     password: yup.string().notRequired(),
@@ -18,40 +19,48 @@ const schema = yup.object({
     name: yup.string().notRequired(),
 });
 
-const MyDataModal = ({ setModalMyData }: any) => {
+const ClientDataModal = ({ setModalMyData }: any) => {
 
-    const { user } = useContext(UserContext)
+    const { clientGet, setLoading } = useContext(UserContext)
 
     const bodyUpdate = async (formData: IUserUpdate) => {
+
         let userUpdate = {}
+
         if (formData.name !== "") {
             userUpdate = {
                 name: formData.name
             }
-            await updateUserById(user!.id, userUpdate)
+            await updateUserById(clientGet!.id, userUpdate)
             toast.success("Nome alterado!")
+            setModalMyData(false)
+
         }
         if (formData.email !== "") {
             userUpdate = {
                 email: formData.email
             }
-            await updateUserById(user!.id, userUpdate)
+            await updateUserById(clientGet!.id, userUpdate)
             toast.success("E-mail alterado!")
+            setModalMyData(false)
         }
         if (formData.password !== "") {
             userUpdate = {
                 password: formData.password
             }
-            await updateUserById(user!.id, userUpdate)
+            await updateUserById(clientGet!.id, userUpdate)
             toast.success("Senha alterada!")
+            setModalMyData(false)
         }
         if (formData.telephone !== "") {
             userUpdate = {
                 telephone: formData.telephone
             }
-            await updateUserById(user!.id, userUpdate)
+            await updateUserById(clientGet!.id, userUpdate)
             toast.success("Telefone alterado!")
+            setModalMyData(false)
         }
+        setLoading(true)
     }
 
     const {
@@ -77,14 +86,16 @@ const MyDataModal = ({ setModalMyData }: any) => {
                         <div>
                             <label htmlFor="name">Nome</label>
                             <div>
-                                <input type="text" placeholder={user?.name} id="name" {...register("name")} />
-                                <button type="submit">Alterar</button>
+                                <input type="text" placeholder={clientGet!.name} id="name" {...register("name")} />
+                                <button type="submit" onClick={() => {
+
+                                }}>Alterar</button>
                             </div>
                         </div>
                         <div>
                             <label htmlFor="email">E-mail</label>
                             <div>
-                                <input type="text" placeholder={user!.email} id="email" {...register("email")} />
+                                <input type="text" placeholder={clientGet!.email} id="email" {...register("email")} />
                                 <button type="submit">Alterar</button>
                             </div>
                         </div>
@@ -98,7 +109,7 @@ const MyDataModal = ({ setModalMyData }: any) => {
                         <div>
                             <label htmlFor="telephone">Telefone</label>
                             <div>
-                                <input type="text" placeholder={user!.telephone} id="telephone" {...register("telephone")} />
+                                <input type="text" placeholder={clientGet!.telephone} id="telephone" {...register("telephone")} />
                                 <button type="submit">Alterar</button>
                             </div>
                         </div>
@@ -109,4 +120,4 @@ const MyDataModal = ({ setModalMyData }: any) => {
     )
 
 }
-export default MyDataModal;
+export default ClientDataModal;

@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 // import { useState } from "react";
 import UpdatedContactStyle from "./style";
 import * as yup from "yup";
@@ -19,7 +20,7 @@ const schema = yup.object({
 
 const UpdatedContactModal = ({ setModalContact }: any) => {
 
-    const { idContact, user } = useContext(UserContext)
+    const { idContact, user, setLoading } = useContext(UserContext)
 
     const bodyUpdate = async (formData: IContactUpdate) => {
         user!.contacts.filter((el) => {
@@ -39,30 +40,16 @@ const UpdatedContactModal = ({ setModalContact }: any) => {
         try {
             await updateContactById(idContact, formData)
             toast.success("Informações alteradas")
+            setLoading(true)
+
         } catch (error) {
             console.error(error)
         }
-        // if(formData.name === ""){
-
-        // }
-
-        // if (formData.name) {
-        //     await updateContactById(idContact, formData.name)
-        // }
-        // if (formData.email) {
-        //     await updateContactById(idContact, formData.email)
-        // }
-        // if (formData.telephone) {
-        //     await updateContactById(idContact, formData.telephone)
-        // }
-        // console.log(formData)
-
     }
 
     const {
         register,
         handleSubmit,
-        formState: { errors },
     } = useForm<IContactUpdate>({
         resolver: yupResolver(schema),
     });

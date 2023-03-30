@@ -3,7 +3,6 @@ import { IContactUpdate } from "./interface"
 
 export const getAllContactsByUser = async (id: string) => {
     const token = localStorage.getItem("@token")
-
     if (token) {
         const { data } = await api.get(`contact/${id}`, {
             headers: {
@@ -34,3 +33,4 @@ export const deleteContactById = async (id: string) => {
     })
     return data
 }
+

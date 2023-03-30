@@ -5,9 +5,11 @@ import userRoutes from "./router/user.router"
 import handleError from "./errors/handleError";
 import loginRoutes from "./router/login.router";
 import contactRoutes from "./router/contact.router";
+import cors from "cors";
 
 const app = express()
 app.use(express.json())
+app.use(cors())
 
 app.use("/users", userRoutes)
 app.use("/login", loginRoutes)

@@ -42,7 +42,7 @@ export interface ILoginFormValues {
     email: string
     password: string
 }
-// loading, user, userRegister, userLogin, userLoggout
+
 export interface IUserContext {
     loading: boolean
     reload: boolean
@@ -60,6 +60,8 @@ export interface IUserContext {
     deleteContactGlobal: (id: string) => void
     setIdContact: React.Dispatch<React.SetStateAction<string>>
     idContact: string
+    setClientGet: React.Dispatch<React.SetStateAction<IUser | null>>
+    clientGet: IUser | null
 }
 
 interface IToken {
@@ -79,6 +81,7 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
     const [modalContact, setModalContact] = useState(false)
     const [modalDeleteContact, setModalDeleteContact] = useState(false)
     const [idContact, setIdContact] = useState("")
+    const [clientGet, setClientGet] = useState<IUser | null>(null)
 
     const navigate = useNavigate()
 
@@ -125,10 +128,9 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
             if (!token) {
                 navigate("/")
             } else if (userCapture!.isAdmin) {
+                setUser(userCapture)
                 navigate("dashboard_admin")
             } else {
-                console.log(userCapture)
-                console.log(userCapture!.contacts)
                 setUser(userCapture)
                 setContactsClient(userCapture!.contacts)
                 navigate("dashboard")
@@ -182,7 +184,9 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
             modalDeleteContact,
             deleteContactGlobal,
             setIdContact,
-            idContact
+            idContact,
+            setClientGet,
+            clientGet
         }}>
             {children}
         </UserContext.Provider>
