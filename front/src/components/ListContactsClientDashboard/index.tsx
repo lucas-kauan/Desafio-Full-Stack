@@ -5,7 +5,7 @@ import DeleteContactModal from "../DeleteContactModal"
 import UpdatedContactModal from "../UpdatedContactModal"
 
 const ListContactsClientDashboard = () => {
-    const { contactsClient, setModalContact, setIdContact, setModalDeleteContact, modalContact, modalDeleteContact, setUserSelected } = useContext(UserContext)
+    const { contactsClient, setModalContact, setIdContact, setModalDeleteContact, modalContact, modalDeleteContact } = useContext(UserContext)
 
     const render = () => {
         return (

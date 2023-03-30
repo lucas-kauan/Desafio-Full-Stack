@@ -2,40 +2,18 @@
 
 OBS: Na parte do Front só tenho a estilização feita.
 
-O back-end da aplicação ainda está sendo utilizado de forma local com a url - http://localhost:3000
+O back-end da aplicação ainda está sendo utilizado de forma local com a url - http://localhost:3001
 
 
-Comandos para bibliotecas Front-End:
+Comando para instalação Front-End:
 
-- yarn add @hookform/resolvers
-- yarn add axios
-- yarn add react
-- yarn add react-dom
-- yarn add react-hook-form
-- yarn add react-icons
-- yarn add react-router-dom
-- yarn add react-toastify
-- yarn add styled-components
-- yarn add typescript
-- yarn add yup
-- @types/(react, react-dom, styled-components)
+- yarn add @hookform/resolvers axios react react-dom react-hook-form react-icons react-router-dom react-toastify styled-components typescript yup @types/react @types/react-dom @types/styled-components
 
 Comandos para bibliotecas Back-End:
 
-- yarn add bcryptjs
-- yarn add express
-- yarn add express-async-errors
-- yarn add jsonwebtoken
-- yarn add node
-- yarn add typeorm
-- yarn add yup
-- yarn add reflect-metadata
-- yarn add pg
-- yarn add pg-format
-- yarn add dotenv
-- yarn add ts-node-dev
-- yarn add typescript
-- @types/(bcryptjs, jsonwebtoken, node, pg, pg-format, express)
+- yarn add bcryptjs express express-async-errors jsonwebtoken node typeorm yup reflect-metadata pg pg-format dotenv ts-node-dev typescript 
+@types/bcryptjs @types/jsonwebtoken @types/node @types/pg @types/pg-format @types/express
+
 
 ## Rota de login
 

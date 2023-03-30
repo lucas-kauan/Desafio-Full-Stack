@@ -5,8 +5,6 @@ import api from "../../services/api";
 import { IContact, IUser, UserContext } from "../../providers/UserContext/UserContext";
 import { getAllContactsByUser } from "../../services/contacts/requests";
 import ClientDataModal from "../../components/ModalDataClient";
-import { deleteUserById } from "../../services/users/requests";
-import { toast } from "react-toastify";
 import MyDataModal from "../../components/MyDataModal";
 import UpdatedContactModal from "../../components/UpdatedContactModal";
 import DeleteContactModal from "../../components/DeleteContactModal";

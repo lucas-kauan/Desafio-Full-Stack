@@ -2,7 +2,7 @@
 import * as yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { createContactByUserId, createUser } from "../../services/users/requests";
+import { createUser } from "../../services/users/requests";
 import { useContext } from "react";
 import { UserContext } from "../../providers/UserContext/UserContext";
 import { toast } from "react-toastify";
