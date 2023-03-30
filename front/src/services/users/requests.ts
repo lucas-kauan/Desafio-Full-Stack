@@ -1,3 +1,4 @@
+import { IUserCreate } from "../../components/CreateUserModal"
 import api from "../api"
 import { IContactCreate } from "../contacts/interface"
 import { IUserUpdate } from "./interface"
@@ -40,5 +41,10 @@ export const deleteUserById = async (id: string) => {
             Authorization: `Bearer ${token}`
         }
     })
+    return data
+}
+
+export const createUser = async (body: IUserCreate) => {
+    const { data } = await api.post(`users`, body)
     return data
 }

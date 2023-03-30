@@ -8,6 +8,7 @@ import MyDataModal from "../../components/MyDataModal";
 import ListContactsClientDashboard from "../../components/ListContactsClientDashboard";
 import { deleteUserById } from "../../services/users/requests";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const DashboardClient = () => {
 
@@ -20,6 +21,7 @@ const DashboardClient = () => {
         try {
             await deleteUserById(user!.id)
             setModalDeleteContact(true)
+            toast.success("Conta deletada!")
             navigate("/")
         } catch (error) {
             console.error(error)

@@ -20,7 +20,7 @@ const schema = yup.object({
 
 const MyDataModal = ({ setModalMyData }: any) => {
 
-    const { user } = useContext(UserContext)
+    const { user, setLoading } = useContext(UserContext)
 
     const bodyUpdate = async (formData: IUserUpdate) => {
         let userUpdate = {}
@@ -52,6 +52,11 @@ const MyDataModal = ({ setModalMyData }: any) => {
             await updateUserById(user!.id, userUpdate)
             toast.success("Telefone alterado!")
         }
+
+        setTimeout(() => {
+            setModalMyData(false)
+            setLoading(true)
+        }, 500);
     }
 
     const {

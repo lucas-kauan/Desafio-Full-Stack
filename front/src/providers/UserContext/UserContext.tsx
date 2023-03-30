@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { deleteContactById } from "../../services/contacts/requests";
 import jwtDecode from "jwt-decode";
-import { getClientById } from "../../services/users/requests";
+import { deleteUserById, getClientById } from "../../services/users/requests";
 
 export interface IDefaultProviderProps {
     children: React.ReactNode
@@ -64,6 +64,7 @@ export interface IUserContext {
     clientGet: IUser | null
     setUserSelected: React.Dispatch<React.SetStateAction<IUser | null>>
     userSelected: IUser | null
+    deleteUserGlobal: (id: string) => void
 }
 
 
@@ -160,6 +161,19 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
         }
     }
 
+    const deleteUserGlobal = (id: string) => {
+        try {
+            deleteUserById(id)
+            toast.success("Usuário deletado")
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(true)
+            }, 300);
+        }
+    }
+
     useEffect(() => {
         verify()
     }, [loading])
@@ -192,7 +206,8 @@ export const UserProvider = ({ children }: IDefaultProviderProps) => {
             setClientGet,
             clientGet,
             setUserSelected,
-            userSelected
+            userSelected,
+            deleteUserGlobal
         }}>
             {children}
         </UserContext.Provider>

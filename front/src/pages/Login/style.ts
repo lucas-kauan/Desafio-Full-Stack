@@ -32,14 +32,14 @@ const PageLogin = styled.div`
         }
 
         form{
-            height: 63%;
+            height: 67%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
 
             button {
                 width: 100%;
-                height: 80px;
+                height: 60px;
                 margin-top: 60px;
 
                 font-weight: 900;
@@ -50,6 +50,12 @@ const PageLogin = styled.div`
 
                 border-radius: 10px;
                 border: transparent;    
+            }
+
+            > p {
+                text-align: center;
+                font-size: 20px;
+                color: var(--color-light);
             }
         }
     }
@@ -175,6 +181,7 @@ const PageLogin = styled.div`
             margin-left: 10px;
         }
     }
+
     
 `
 export default PageLogin;

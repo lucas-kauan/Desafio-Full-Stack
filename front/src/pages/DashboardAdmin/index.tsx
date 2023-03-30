@@ -9,6 +9,8 @@ import { deleteUserById } from "../../services/users/requests";
 import { toast } from "react-toastify";
 import MyDataModal from "../../components/MyDataModal";
 import UpdatedContactModal from "../../components/UpdatedContactModal";
+import DeleteContactModal from "../../components/DeleteContactModal";
+import DeleteUserModal from "../../components/DeleteUserModal";
 
 const DashboardAdmin = () => {
 
@@ -16,8 +18,9 @@ const DashboardAdmin = () => {
     const [modalClientData, setModalClientData] = useState(false)
     const [usersList, setUsersList] = useState<IUser[]>()
     const [contactsList, setContactsList] = useState<IContact[] | null>(null)
+    const [modalDeleteUser, setModalDeleteUser] = useState(false)
 
-    const { setLoading, loading, setClientGet, setModalDeleteContact, setModalContact, modalContact, setIdContact, setUserSelected, userSelected } = useContext(UserContext)
+    const { setLoading, loading, setClientGet, setModalDeleteContact, modalDeleteContact, setModalContact, modalContact, setIdContact, setUserSelected, userSelected } = useContext(UserContext)
 
 
     const getAllUsers = async () => {
@@ -36,16 +39,6 @@ const DashboardAdmin = () => {
         try {
             const allContacts = await getAllContactsByUser(id)
             setContactsList(allContacts)
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    const deleteUser = async (id: string) => {
-        try {
-            await deleteUserById(id)
-            setModalDeleteContact(true)
-            toast.success("Usuário deletado!")
         } catch (error) {
             console.error(error)
         }
@@ -112,7 +105,8 @@ const DashboardAdmin = () => {
                                                                     setLoading(true)
                                                                 }}>Visualizar contatos</button>
                                                                 <button onClick={() => {
-                                                                    deleteUser(element.id)
+                                                                    setClientGet(element)
+                                                                    setModalDeleteUser(true)
                                                                 }}>Deletar cliente</button>
                                                             </div>
                                                         </li>
@@ -122,7 +116,7 @@ const DashboardAdmin = () => {
                                         </ul>
                                     </div>
                                     <div className="contacts">
-                                        <h2>{contactsList ? `Contatos de ${userSelected?.name}` : null}</h2>
+                                        <h2>{userSelected ? `Contatos de ${userSelected?.name}` : null}</h2>
                                         {
                                             contactsList ?
                                                 <>
@@ -159,7 +153,10 @@ const DashboardAdmin = () => {
                                                                                 setIdContact(element.id)
                                                                                 setModalContact(true)
                                                                             }}>Editar contato</button>
-                                                                            <button >Deletar contato</button>
+                                                                            <button onClick={() => {
+                                                                                setModalDeleteContact(true)
+                                                                                setIdContact(element.id)
+                                                                            }}>Deletar contato</button>
                                                                         </div>
                                                                     </li>
                                                                 )
@@ -186,6 +183,14 @@ const DashboardAdmin = () => {
                             modalContact ?
                                 <UpdatedContactModal setModalContact={setModalContact} /> : null
 
+                        }
+                        {
+                            modalDeleteContact ?
+                                < DeleteContactModal setModalDeleteContact={setModalDeleteContact} /> : null
+                        }
+                        {
+                            modalDeleteUser ?
+                                < DeleteUserModal setModalDeleteUser={setModalDeleteUser} /> : null
                         }
                     </PageAdmin>
             }

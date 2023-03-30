@@ -7,6 +7,7 @@ import { ILoginFormValues, UserContext } from "../../providers/UserContext/UserC
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
+import CreateUserModal from "../../components/CreateUserModal";
 
 const schema = yup.object({
     email: yup
@@ -20,6 +21,7 @@ const Login = () => {
 
     const [viewPassword, setViewPassword] = useState(false);
     const [typeInputPassword, setTypeInputPassword] = useState("password");
+    const [modalCreateUser, setModalCreateUser] = useState(false)
 
     const {
         register,
@@ -82,8 +84,12 @@ const Login = () => {
                         </span>
                     </div>
                     <button type="submit">Login</button>
+                    <p onClick={() => setModalCreateUser(true)}>Ainda não é usuário ? Cadastre-se</p>
                 </form>
             </div>
+            {
+                modalCreateUser ? <CreateUserModal setModalCreateUser={setModalCreateUser} /> : null
+            }
         </PageLogin >
     )
 }

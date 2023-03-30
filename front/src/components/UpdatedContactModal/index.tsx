@@ -20,11 +20,11 @@ const schema = yup.object({
 
 const UpdatedContactModal = ({ setModalContact }: any) => {
 
-    const { idContact, userSelected } = useContext(UserContext)
+    const { idContact, user, setLoading } = useContext(UserContext)
 
     const bodyUpdate = async (formData: IContactUpdate) => {
 
-        userSelected!.contacts.filter((el) => {
+        user!.contacts.filter((el) => {
             if (el.id === idContact) {
 
                 if (formData.name === "") {
@@ -46,6 +46,10 @@ const UpdatedContactModal = ({ setModalContact }: any) => {
             setModalContact(false)
         } catch (error) {
             console.error(error)
+        } finally {
+            setTimeout(() => {
+                setLoading(true)
+            }, 500);
         }
     }
 
