@@ -1,9 +1,6 @@
 # Desafio Full-Stack
 
-OBS: Na parte do Front só tenho a estilização feita.
-
 O back-end da aplicação ainda está sendo utilizado de forma local com a url - http://localhost:3001
-
 
 Comando para instalação Front-End:
 
